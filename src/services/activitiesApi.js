@@ -2,7 +2,6 @@ import { apiRequest, createPath } from "./httpClient";
 
 const toListQuery = (query = {}) => ({
   ...query,
-  pageSize: query.pageSize ?? query.limit,
 });
 
 export const listAdminActivities = (query = {}) =>

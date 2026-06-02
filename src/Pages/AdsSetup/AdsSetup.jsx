@@ -3,12 +3,12 @@ import { Edit, Plus, Search, SlidersHorizontal } from "lucide-react";
 import { MdDelete } from "react-icons/md";
 import { CiPower } from "react-icons/ci";
 import {
-  adminCreateProduct,
-  adminDeleteProduct,
-  adminListProducts,
-  adminToggleProductStatus,
-  adminUpdateProduct,
-} from "../../services/shopApi";
+  createAd,
+  deleteAd,
+  listAds,
+  updateAd,
+  updateAdStatus,
+} from "../../services/adsApi";
 
 const defaultCategories = [
   "Protein",
@@ -149,7 +149,7 @@ const AdsSetup = () => {
   const loadAds = useCallback(async () => {
     try {
       setIsLoading(true);
-      const payload = await adminListProducts({
+      const payload = await listAds({
         page: 1,
         limit: 100,
         q: searchTerm.trim() || undefined,
@@ -277,9 +277,9 @@ const AdsSetup = () => {
 
   const handleInlineStatusToggle = async (ad) => {
     try {
-      await adminToggleProductStatus({
-        productId: ad.id,
-        status: !ad.isActive,
+      await updateAdStatus({
+        id: ad.id,
+        body: { status: !ad.isActive },
       });
       await loadAds();
     } catch {
@@ -291,7 +291,7 @@ const AdsSetup = () => {
     if (!deletingAd) return;
     try {
       setIsDeleting(true);
-      await adminDeleteProduct({ productId: deletingAd.id });
+      await deleteAd({ id: deletingAd.id });
       setDeletingAd(null);
       await loadAds();
     } catch {
@@ -330,14 +330,11 @@ const AdsSetup = () => {
         const body = buildProductPayload(preparedForm, {
           withImage: Boolean(formData.imageFile),
         });
-        await adminUpdateProduct({
-          productId: editingAd.id,
-          body,
-        });
+        await updateAd({ id: editingAd.id, body });
         closeEditModal();
       } else {
         const body = buildProductPayload(preparedForm, { withImage: true });
-        await adminCreateProduct(body);
+        await createAd(body);
         closeCreateModal();
       }
       await loadAds();

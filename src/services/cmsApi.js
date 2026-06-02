@@ -1,21 +1,40 @@
 import { apiRequest, createPath } from "./httpClient";
 
-export const upsertAboutUs = (body) =>
-  apiRequest("/cms/admin/about-us", { method: "PUT", body });
+export const getAboutUs = async () => {
+  const res = await apiRequest("/admin/settings/content", { query: { type: "about-us" } });
+  const data = res?.data ?? res ?? "";
+  return { content: typeof data === "string" ? data : (data?.content ?? "") };
+};
 
-export const getAboutUs = () => apiRequest("/cms/about-us", { auth: false });
+export const upsertAboutUs = (body) =>
+  apiRequest("/admin/settings/content", {
+    method: "POST",
+    body: { type: "about-us", content: body.content || "" }
+  });
+
+export const getPrivacyPolicy = async () => {
+  const res = await apiRequest("/admin/settings/content", { query: { type: "privacy-policy" } });
+  const data = res?.data ?? res ?? "";
+  return { content: typeof data === "string" ? data : (data?.content ?? "") };
+};
 
 export const upsertPrivacyPolicy = (body) =>
-  apiRequest("/cms/admin/privacy-policy", { method: "PUT", body });
+  apiRequest("/admin/settings/content", {
+    method: "POST",
+    body: { type: "privacy-policy", content: body.content || "" }
+  });
 
-export const getPrivacyPolicy = () =>
-  apiRequest("/cms/privacy-policy", { auth: false });
+export const getTermsAndConditions = async () => {
+  const res = await apiRequest("/admin/settings/content", { query: { type: "terms-and-conditions" } });
+  const data = res?.data ?? res ?? "";
+  return { content: typeof data === "string" ? data : (data?.content ?? "") };
+};
 
 export const upsertTermsAndConditions = (body) =>
-  apiRequest("/cms/admin/terms-and-conditions", { method: "PUT", body });
-
-export const getTermsAndConditions = () =>
-  apiRequest("/cms/terms-and-conditions", { auth: false });
+  apiRequest("/admin/settings/content", {
+    method: "POST",
+    body: { type: "terms-and-conditions", content: body.content || "" }
+  });
 
 export const getPageBySlug = ({ slug }) =>
   apiRequest(createPath("/cms/pages/:slug", { slug }), { auth: false });

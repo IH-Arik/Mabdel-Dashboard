@@ -14,11 +14,14 @@ import {
   Trash2,
 } from "lucide-react";
 import {
-  listActivities,
   listEvents,
   updateActivityStatus,
   updateEventStatus,
 } from "../../services/adminApi";
+import {
+  listAdminActivities,
+  searchAdminActivities,
+} from "../../services/activitiesApi";
 
 const ITEMS_PER_PAGE = 8;
 const PLACEHOLDER_AVATAR = "https://via.placeholder.com/80x80.png?text=U";
@@ -77,11 +80,16 @@ const ActivityEvents = () => {
       try {
         setLoading(true);
         const [activitiesPayload, eventsPayload] = await Promise.all([
-          listActivities({
-            page: 1,
-            limit: 100,
-            q: debouncedSearch || undefined,
-          }),
+          debouncedSearch
+            ? searchAdminActivities({
+                page: 1,
+                limit: 100,
+                q: debouncedSearch,
+              })
+            : listAdminActivities({
+                page: 1,
+                limit: 100,
+              }),
           listEvents({
             page: 1,
             limit: 100,
@@ -91,9 +99,10 @@ const ActivityEvents = () => {
 
         if (!mounted) return;
 
-        const activities = Array.isArray(activitiesPayload?.data)
-          ? activitiesPayload.data
-          : [];
+        const activityData = activitiesPayload?.data || activitiesPayload;
+        const activities = Array.isArray(activityData)
+          ? activityData
+          : activityData?.items || activityData?.rows || [];
         const events = Array.isArray(eventsPayload?.data) ? eventsPayload.data : [];
 
         const normalized = [...activities, ...events]

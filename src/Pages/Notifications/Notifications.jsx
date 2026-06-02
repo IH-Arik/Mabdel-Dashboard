@@ -4,10 +4,10 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Bell } from "lucide-react";
 import {
   getUnreadNotificationCount,
-  listAdminNotifications,
+  listNotifications,
   markAllNotificationsRead,
   markNotificationRead,
-} from "../../services/adminApi";
+} from "../../services/notificationsApi";
 
 const PAGE_SIZE = 10;
 
@@ -24,7 +24,7 @@ const Notifications = () => {
     const loadNotifications = async () => {
       try {
         const [listPayload, unreadPayload] = await Promise.all([
-          listAdminNotifications({ page, limit: PAGE_SIZE }),
+          listNotifications({ page, limit: PAGE_SIZE }),
           getUnreadNotificationCount(),
         ]);
 

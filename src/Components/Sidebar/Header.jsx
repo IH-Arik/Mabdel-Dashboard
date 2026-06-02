@@ -6,10 +6,12 @@ import { Bell, MessageSquareMore } from "lucide-react";
 import adminImage from "../../assets/image/adminkickclick.jpg";
 import {
   getMyProfile,
-  getUnreadNotificationCount,
-  listAdminNotifications,
-  markNotificationRead,
 } from "../../services/adminApi";
+import {
+  getNotificationsPreview,
+  getUnreadNotificationCount,
+  markNotificationRead,
+} from "../../services/notificationsApi";
 
 const Header = ({ showDrawer }) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -56,7 +58,7 @@ const Header = ({ showDrawer }) => {
     const loadNotifications = async () => {
       try {
         const [listPayload, unreadPayload] = await Promise.all([
-          listAdminNotifications({ page: 1, limit: 4 }),
+          getNotificationsPreview({ page: 1, limit: 4 }),
           getUnreadNotificationCount(),
         ]);
         if (!mounted) return;

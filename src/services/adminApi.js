@@ -306,3 +306,37 @@ export const updateSettingsSecurity = (body) =>
     method: "PUT",
     body,
   });
+
+// Newly integrated API functions for FastAPI backend compatibility
+export const listAdmins = () => apiRequest("/admin/admins");
+
+export const createAdmin = (body) =>
+  apiRequest("/admin/create-admin", {
+    method: "POST",
+    body,
+  });
+
+export const getAiStats = () => apiRequest("/admin/ai/stats");
+
+export const getAiLogs = (limit = 50) =>
+  apiRequest("/admin/ai/logs", {
+    query: { limit },
+  });
+
+export const getSuperPlatformSummary = () => apiRequest("/super/platform-summary");
+
+export const getSuperGlobalGrowth = () => apiRequest("/super/global-growth");
+
+export const getUserGrowth = () => apiRequest("/admin/users-growth");
+
+export const getSettingsContent = (type) =>
+  apiRequest("/admin/settings/content", {
+    query: { type },
+  });
+
+export const updateSettingsContent = (body) =>
+  apiRequest("/admin/settings/content", {
+    method: "POST",
+    body,
+  });
+

@@ -732,6 +732,53 @@ const handleCms = (path, method, body = {}) => {
 };
 
 const handleChat = (path, method, body = {}) => {
+  if (path === "/admin/chats" && method === "GET") {
+    return response(
+      threads.map((thread) => ({
+        id: thread._id,
+        unread_count: thread.unreadCount,
+        timestamp: thread.updatedAt,
+        last_message: thread.lastMessage?.text || "",
+        user_name: thread.directPeer?.fullName || "Unknown User",
+        avatar_url: thread.directPeer?.profileImage || thread.directPeer?.avatar || "",
+      }))
+    );
+  }
+
+  if (path.startsWith("/admin/chats/") && path.endsWith("/messages") && method === "GET") {
+    const id = path.replace("/admin/chats/", "").replace("/messages", "");
+    const items = messagesByThread[id] || [];
+    return response(
+      items.map((message) => ({
+        id: message._id,
+        sender_id: message.senderUserId,
+        message: message.text || "",
+        image_url: message.imageUrl || "",
+        timestamp: message.createdAt || null,
+      }))
+    );
+  }
+
+  if (path.startsWith("/admin/chats/") && path.endsWith("/messages") && method === "POST") {
+    const id = path.replace("/admin/chats/", "").replace("/messages", "");
+    const next = {
+      _id: `msg-${Date.now()}`,
+      senderUserId: "admin-001",
+      type: body?.imageUrl ? "image" : "text",
+      text: body?.text || "",
+      imageUrl: body?.imageUrl || "",
+      createdAt: new Date().toISOString(),
+    };
+    messagesByThread[id] = [...(messagesByThread[id] || []), next];
+    return response({
+      id: next._id,
+      sender_id: next.senderUserId,
+      message: next.text,
+      image_url: next.imageUrl,
+      timestamp: next.createdAt,
+    });
+  }
+
   if (path === "/chat/threads" && method === "GET") {
     return response(threads);
   }
