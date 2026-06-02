@@ -12,6 +12,8 @@ import {
   TriangleAlert,
   UserCog,
   Users,
+  Brain,
+  MessageSquare
 } from "lucide-react";
 import { BsBadgeAd } from "react-icons/bs";
 import { SiActivitypub } from "react-icons/si";
@@ -47,27 +49,16 @@ const Sidebar = ({ closeDrawer }) => {
       label: "Create Admin",
       Link: "/create-admin",
     },
-
-    // {
-    //   icon: <BsBadgeAd className="w-5 h-5"/>,
-    //   label: "Ads Setup",
-    //   Link: "/ads-setup",
-    // },
-    // {
-    //   icon: <AlignCenterVertical className="w-5 h-5"/>,
-    //   label: "Categories",
-    //   Link: "/categories",
-    // },
-    // {
-    //   icon: <SiActivitypub className="w-5 h-5"/>,
-    //   label: "Activity & Events",
-    //   Link: "/activity&events",
-    // },
-    // {
-    //   icon: <CalendarCog className="w-5 h-5" />,
-    //   label: "Event Creator",
-    //   Link: "/event-creator",
-    // },
+    {
+      icon: <Brain className="w-5 h-5" />,
+      label: "AI Analysis",
+      Link: "/analysis-page",
+    },
+    {
+      icon: <MessageSquare className="w-5 h-5" />,
+      label: "Support Chat",
+      Link: "/messages",
+    },
     {
       icon: <TriangleAlert className="w-5 h-5" />,
       label: "Reports",

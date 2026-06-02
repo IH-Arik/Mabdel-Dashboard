@@ -23,10 +23,40 @@ export class ApiError extends Error {
 }
 
 export const buildApiUrl = (path, { skipPrefix = false } = {}) => {
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  const prefixedPath = skipPrefix || normalizedPath.startsWith("/api/")
-    ? normalizedPath
-    : `${API_PREFIX.replace(/\/+$/, "")}${normalizedPath}`;
+  let mappedPath = path.startsWith("/") ? path : `/${path}`;
+
+  // Path translation mapper for FastAPI backend dashboard compatibility
+  if (mappedPath.startsWith("/admin/notifications")) {
+    mappedPath = mappedPath.replace("/admin/notifications", "/dashboard/notifications");
+  } else if (mappedPath === "/admin/password" || mappedPath === "/auth/admin/change-password") {
+    mappedPath = "/dashboard/admin/change-password";
+  } else if (mappedPath.startsWith("/auth/admin/logout")) {
+    mappedPath = "/dashboard/admin/logout";
+  } else if (mappedPath.startsWith("/auth/admin/")) {
+    mappedPath = mappedPath.replace("/auth/admin/", "/dashboard/admin/auth/");
+  } else if (mappedPath.startsWith("/cms/admin/")) {
+    mappedPath = mappedPath.replace("/cms/admin/", "/dashboard/admin/settings/content");
+  } else if (mappedPath.startsWith("/reports/admin")) {
+    mappedPath = mappedPath.replace("/reports/admin", "/dashboard/admin/reports");
+  } else if (mappedPath.startsWith("/billing/admin/transactions")) {
+    mappedPath = "/dashboard/admin/earnings/transactions";
+  } else if (mappedPath.startsWith("/admin/dashboard/overview") || mappedPath.startsWith("/dashboard/overview")) {
+    mappedPath = "/dashboard/admin/summary";
+  } else if (mappedPath.startsWith("/admin/dashboard/analytics") || mappedPath.startsWith("/dashboard/analytics")) {
+    mappedPath = "/dashboard/admin/summary";
+  } else if (mappedPath.startsWith("/admin/dashboard/recent-users")) {
+    mappedPath = "/dashboard/admin/users";
+  } else if (mappedPath.startsWith("/admin/dashboard/notifications/preview")) {
+    mappedPath = "/dashboard/notifications";
+  } else if (mappedPath.startsWith("/super/")) {
+    mappedPath = mappedPath.replace("/super/", "/dashboard/super/");
+  } else if (mappedPath.startsWith("/admin/")) {
+    mappedPath = mappedPath.replace("/admin/", "/dashboard/admin/");
+  }
+
+  const prefixedPath = skipPrefix || mappedPath.startsWith("/api/")
+    ? mappedPath
+    : `${API_PREFIX.replace(/\/+$/, "")}${mappedPath}`;
 
   return `${API_BASE_URL.replace(/\/+$/, "")}${prefixedPath}`;
 };

@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input, Typography, message } from "antd";
+import { Checkbox, Form, Input, message } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -18,7 +18,7 @@ const SignIn = () => {
   const redirectPath = location.state?.from?.pathname || "/dashboard";
 
   const togglePasswordVisibility = () => {
-    setShowpassword(!showpassword);
+    setShowpassword((previous) => !previous);
   };
 
   useEffect(() => {
@@ -59,7 +59,10 @@ const SignIn = () => {
         data?.tokens?.accessToken ||
         payload?.token;
       const refreshToken =
-        data?.refreshToken || data?.refresh_token || data?.tokens?.refreshToken || payload?.refreshToken;
+        data?.refreshToken ||
+        data?.refresh_token ||
+        data?.tokens?.refreshToken ||
+        payload?.refreshToken;
       const profile = data?.admin || data?.user || null;
 
       if (!accessToken) {
@@ -99,9 +102,7 @@ const SignIn = () => {
         <Form.Item
           name="email"
           label={<span className="text-sm font-semibold text-slate-700">Email</span>}
-          rules={[
-            { required: true, message: "Please enter your email" },
-          ]}
+          rules={[{ required: true, message: "Please enter your email" }]}
           className="mb-5"
         >
           <Input
@@ -124,14 +125,14 @@ const SignIn = () => {
           ]}
           className="mb-5"
         >
-          <div className="relative flex items-center w-full">
-            <Input
-              className="w-full h-11 pl-4 pr-10 text-sm text-slate-800 rounded-lg border border-slate-300 hover:border-slate-400 focus:border-[#17b4c9] focus:shadow-none placeholder:text-slate-400"
-              type={showpassword ? "text" : "password"}
-              autoComplete="current-password"
-              placeholder="••••••••"
-            />
-            <div className="absolute right-3 flex items-center">
+          <Input.Password
+            className="h-11 text-sm text-slate-800 rounded-lg border border-slate-300 hover:border-slate-400 focus:border-[#17b4c9] focus:shadow-none placeholder:text-slate-400"
+            autoComplete="current-password"
+            placeholder="Enter your password"
+            visibilityToggle={false}
+            iconRender={() => null}
+            type={showpassword ? "text" : "password"}
+            suffix={
               <button
                 onClick={togglePasswordVisibility}
                 type="button"
@@ -143,8 +144,8 @@ const SignIn = () => {
                   <FaRegEyeSlash className="w-5 h-5" />
                 )}
               </button>
-            </div>
-          </div>
+            }
+          />
         </Form.Item>
 
         <div className="flex items-center justify-between mb-6">
