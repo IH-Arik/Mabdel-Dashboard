@@ -36,86 +36,88 @@ const NewPass = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f9fafb]">
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center justify-center w-full gap-2 mx-auto md:max-w-screen-md">
-          <Form
-            name="new-password"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            layout="vertical"
-            className="w-full max-w-lg px-6 py-10 mt-10 bg-white md:py-20 md:px-10 rounded-2xl"
-          >
-            <div className="mx-auto ">
-              <div className="flex justify-center "> 
-                <img  src={brandlogo} alt="brandlogo" className="w-40 h-40 my-3" />
-              </div>
-              <h2 className="mb-4 text-2xl font-bold text-gray-700 md:text-3xl">
-                Create New Password
-              </h2>
-              <Typography.Text className="text-base text-gray-600">
-                Create a new password. Ensure it differs from previous ones for
-                security
-              </Typography.Text>
-            </div>
-
-            <Form.Item
-              name="newPassword"
-              label={<p className="text-md">New Password</p>}
-              rules={[
-                { required: true, message: "Please input your new password!" },
-              ]}
-            >
-              <div className="relative flex items-center">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="New Password"
-                  className="text-md"
-                />
-                <div className="absolute right-0 pr-3">
-                  <button type="button" onClick={togglePasswordVisibility}>
-                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                  </button>
-                </div>
-              </div>
-            </Form.Item>
-
-            <Form.Item
-              name="confirmPassword"
-              label={<p className="text-md">Confirm Password</p>}
-              rules={[
-                { required: true, message: "Please confirm your password!" },
-              ]}
-            >
-              <div className="relative flex items-center">
-                <Input
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  className="text-md"
-                />
-                <div className="absolute right-0 pr-3">
-                  <button
-                    type="button"
-                    onClick={toggleConfirmPasswordVisibility}
-                  >
-                    {showConfirmPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                  </button>
-                </div>
-              </div>
-            </Form.Item>
-
-            <Form.Item className="mt-8 text-center">
-              <button
-                className="bg-[#17b4c9] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "Loading..." : "Update Password"}
-              </button>
-            </Form.Item>
-          </Form>
+    <div className="min-h-screen w-full bg-slate-50 flex items-center justify-center p-4">
+      <Form
+        name="new-password"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        layout="vertical"
+        requiredMark={false}
+        className="py-10 px-8 md:px-10 rounded-2xl w-full max-w-[500px] bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)]"
+      >
+        <div className="flex justify-center mb-6"> 
+          <img src={brandlogo} alt="brandlogo" className="w-40 h-40 object-contain" />
         </div>
-      </div>
+        
+        <h2 className="text-2xl font-bold text-slate-800 text-center mb-2">
+          Create New Password
+        </h2>
+        <p className="text-slate-500 text-sm text-center mb-6">
+          Create a new password. Ensure it differs from previous ones for security.
+        </p>
+
+        <Form.Item
+          name="newPassword"
+          label={<span className="text-sm font-semibold text-slate-700">New Password</span>}
+          rules={[
+            { required: true, message: "Please input your new password!" },
+          ]}
+          className="mb-5"
+        >
+          <div className="relative flex items-center w-full">
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="New Password"
+              className="w-full h-11 pl-4 pr-10 text-sm text-slate-800 rounded-lg border border-slate-300 hover:border-slate-400 focus:border-[#17b4c9] focus:shadow-none placeholder:text-slate-400"
+            />
+            <div className="absolute right-3 flex items-center">
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="text-slate-400 hover:text-slate-600 focus:outline-none flex items-center justify-center"
+              >
+                {showPassword ? <FaRegEye className="w-5 h-5" /> : <FaRegEyeSlash className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </Form.Item>
+
+        <Form.Item
+          name="confirmPassword"
+          label={<span className="text-sm font-semibold text-slate-700">Confirm Password</span>}
+          rules={[
+            { required: true, message: "Please confirm your password!" },
+          ]}
+          className="mb-6"
+        >
+          <div className="relative flex items-center w-full">
+            <Input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              className="w-full h-11 pl-4 pr-10 text-sm text-slate-800 rounded-lg border border-slate-300 hover:border-slate-400 focus:border-[#17b4c9] focus:shadow-none placeholder:text-slate-400"
+            />
+            <div className="absolute right-3 flex items-center">
+              <button
+                type="button"
+                onClick={toggleConfirmPasswordVisibility}
+                className="text-slate-400 hover:text-slate-600 focus:outline-none flex items-center justify-center"
+              >
+                {showConfirmPassword ? <FaRegEye className="w-5 h-5" /> : <FaRegEyeSlash className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </Form.Item>
+
+        <Form.Item className="mb-0 mt-6 text-center">
+          <button
+            className="bg-[#17b4c9] hover:bg-[#149cb0] active:bg-[#0f8b9c] text-center w-full py-3 font-semibold text-white rounded-lg transition-colors duration-200 shadow-sm disabled:opacity-50"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Update Password"}
+          </button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

@@ -35,55 +35,55 @@ const VerifyCode = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f9fafb]">
-      <div className="py-10 md:py-12 mx-2 md:mx-0 px-6 md:px-10 rounded-2xl w-[580px] h-[525px] bg-white border-2 border-[#eef6ff] ">
-        <div className="">
-          <div className="flex justify-center">
-            <img className="w-40 h-40" src={brandlogo} alt="brandlogo" />
-          </div>
-          <h1 className="text-2xl font-medium ">Verify Your Code</h1>
-          <p className="mt-4 ">
-            We sent a reset link to{" "}
-            <span className="font-medium text-gray-700">contact@dscode</span>
-            Enter the 5-digit code mentioned in the email
-          </p>
+    <div className="min-h-screen w-full bg-slate-50 flex items-center justify-center p-4">
+      <div className="py-10 px-8 md:px-10 rounded-2xl w-full max-w-[500px] bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
+        <div className="flex justify-center mb-6">
+          <img className="w-40 h-40 object-contain" src={brandlogo} alt="brandlogo" />
+        </div>
+        
+        <h1 className="text-2xl font-bold text-slate-800 text-center mb-2">Verify Your Code</h1>
+        <p className="text-slate-500 text-sm text-center mb-6">
+          We sent a reset link to{" "}
+          <span className="font-semibold text-slate-700">contact@dscode</span>.{" "}
+          Enter the 5-digit code mentioned in the email.
+        </p>
 
-          <form onSubmit={handleVerify} className="mt-6">
-            <div className="flex justify-center gap-2">
-              {[0, 1, 2, 3, 4].map((index) => (
-                <input
-                  key={index}
-                  ref={(el) => (inputRefs.current[index] = el)}
-                  type="text"
-                  value={code[index]}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-12 text-xl font-semibold text-center text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-300"
-                  maxLength={1}
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                />
-              ))}
-            </div>
-            <div  className="flex items-center justify-between py-2">
-              <p className="text-gray-500 ">Didn't receive the email? </p>
-                 <p
-              href="#"
+        <form onSubmit={handleVerify} className="mt-6">
+          <div className="flex justify-center gap-3">
+            {[0, 1, 2, 3, 4].map((index) => (
+              <input
+                key={index}
+                ref={(el) => (inputRefs.current[index] = el)}
+                type="text"
+                value={code[index]}
+                onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                className="w-12 h-12 text-xl font-bold text-center text-slate-800 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#17b4c9] focus:border-[#17b4c9]"
+                maxLength={1}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+              />
+            ))}
+          </div>
+          
+          <div className="flex items-center justify-between mt-4 mb-6 text-sm">
+            <p className="text-slate-500">Didn't receive the email?</p>
+            <button
+              type="button"
               onClick={handleResend}
-              className="text-sky-400 hover:text-sky-500 focus:outline-none"
+              className="text-[#17b4c9] hover:text-[#149cb0] font-semibold transition-colors duration-200 focus:outline-none bg-transparent border-none p-0 cursor-pointer"
             >
               Resend
-            </p>
-            </div>
-
-            <button
-              type="submit"
-              className=" py-3 px-20 w-full mt-8 text-white transition-colors rounded-md bg-[#17b4c9]  focus:outline-none focus:ring-2 focus:ring-sky-300 focus:ring-offset-2"
-            >
-              Verify Code
             </button>
-          </form>
-        </div>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-[#17b4c9] hover:bg-[#149cb0] active:bg-[#0f8b9c] text-center w-full py-3 font-semibold text-white rounded-lg transition-colors duration-200 shadow-sm focus:outline-none"
+          >
+            Verify Code
+          </button>
+        </form>
       </div>
     </div>
   );

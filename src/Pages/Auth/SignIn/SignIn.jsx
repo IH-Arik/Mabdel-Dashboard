@@ -83,93 +83,94 @@ const SignIn = () => {
   };
 
   return (
-    <div className="bg-[#f9fafb]">
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center justify-between w-full gap-2 mx-auto md:max-w-screen-md md:flex-row md:gap-20">
-          <div className="md:h-[100vh] w-full  flex items-center justify-center ">
-            <Form
-              name="login"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              layout="vertical"
-              className="py-5 md:py-12 mx-2 md:mx-0 px-6 md:px-10 rounded-2xl w-[580px] h-[525px] bg-white border-2 border-[#eef6ff] "
-            >
-         <div className="flex justify-center ">
-           <img src={brandlogo} className="w-40 h-40" alt="brandlogo"/>
-         </div>
-              <div className="text-center ">
-                <Typography.Text className="text-base text-center text-black ">
-                  Please enter your email and password to continue
-                </Typography.Text>
-              </div>
-              <Form.Item
-                name="email"
-                label={<p className=" text-md">Email</p>}
-                rules={[
-                  { required: true, message: "Please enter your email" },
-                ]}
-              >
-                <Input
-                  className=" text-md"
-                  type="text"
-                  autoComplete="username"
-                  placeholder="Your Email"
-                />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                label={<p className=" text-md">Password</p>}
-                rules={[
-                  { required: true, message: "Please enter your password" },
-                  {
-                    min: 6,
-                    message: "Password must be at least 6 characters",
-                  },
-                ]}
-              >
-                <div className="relative flex items-center justify-center">
-                  <Input
-                    className=" text-md"
-                    type={showpassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    placeholder="Password"
-                  />
-                  <div className="absolute right-0 flex justify-center px-3">
-                    <button onClick={togglePasswordVisibility} type="button">
-                      {showpassword ? (
-                        <FaRegEyeSlash className="" />
-                      ) : (
-                        <FaRegEye className="" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </Form.Item>
-              <div className="flex items-center justify-between my-2">
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox className="text-black text-md hover:text-black">
-                    Remember Password
-                  </Checkbox>
-                </Form.Item>
-                <Link to="/forgate-password" className="">
-                  <p className="text-red-600 hover:text-red-600 text-md ">
-                    Forgate Password
-                  </p>
-                </Link>
-              </div>
-              <Form.Item className="my-5 text-center">
-                <button
-                  className="bg-[#17b4c9] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
-                  type="submit"
-                  disabled={loading}
-                >
-                  {loading ? "Signing in..." : "Sign in"}
-                </button>
-              </Form.Item>
-            </Form>
-          </div>
+    <div className="min-h-screen w-full bg-slate-50 flex items-center justify-center p-4">
+      <Form
+        name="login"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        layout="vertical"
+        requiredMark={false}
+        className="py-10 px-8 md:px-10 rounded-2xl w-full max-w-[500px] bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)]"
+      >
+        <div className="flex justify-center mb-6">
+          <img src={brandlogo} className="w-40 h-40 object-contain" alt="brandlogo" />
         </div>
-      </div>
+
+        <Form.Item
+          name="email"
+          label={<span className="text-sm font-semibold text-slate-700">Email</span>}
+          rules={[
+            { required: true, message: "Please enter your email" },
+          ]}
+          className="mb-5"
+        >
+          <Input
+            className="h-11 px-4 text-sm text-slate-800 rounded-lg border border-slate-300 hover:border-slate-400 focus:border-[#17b4c9] focus:shadow-none placeholder:text-slate-400"
+            type="text"
+            autoComplete="username"
+            placeholder="mostain@gmail.com"
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          label={<span className="text-sm font-semibold text-slate-700">Password</span>}
+          rules={[
+            { required: true, message: "Please enter your password" },
+            {
+              min: 6,
+              message: "Password must be at least 6 characters",
+            },
+          ]}
+          className="mb-5"
+        >
+          <div className="relative flex items-center w-full">
+            <Input
+              className="w-full h-11 pl-4 pr-10 text-sm text-slate-800 rounded-lg border border-slate-300 hover:border-slate-400 focus:border-[#17b4c9] focus:shadow-none placeholder:text-slate-400"
+              type={showpassword ? "text" : "password"}
+              autoComplete="current-password"
+              placeholder="••••••••"
+            />
+            <div className="absolute right-3 flex items-center">
+              <button
+                onClick={togglePasswordVisibility}
+                type="button"
+                className="text-slate-400 hover:text-slate-600 focus:outline-none flex items-center justify-center"
+              >
+                {showpassword ? (
+                  <FaRegEye className="w-5 h-5" />
+                ) : (
+                  <FaRegEyeSlash className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          </div>
+        </Form.Item>
+
+        <div className="flex items-center justify-between mb-6">
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox className="text-slate-600 text-sm hover:text-slate-700">
+              Remember password
+            </Checkbox>
+          </Form.Item>
+          <Link
+            to="/forgate-password"
+            className="text-[#17b4c9] hover:text-[#149cb0] text-sm font-medium transition-colors duration-200"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
+        <Form.Item className="mb-0 text-center">
+          <button
+            className="bg-[#17b4c9] hover:bg-[#149cb0] active:bg-[#0f8b9c] text-center w-full py-3 font-semibold text-white rounded-lg transition-colors duration-200 shadow-sm disabled:opacity-50"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Signing In..." : "Sign In"}
+          </button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
